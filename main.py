@@ -51,13 +51,30 @@ class Game:
         """
         ポーカー
         """
+
+        print("Poker Game start")
+
         # 山札セット（セット数を決める）
         deck = stock.Deck()
 
         # 最初は5枚ドロー
         self.player.draw_card(deck, 5)
-        print(self.player.hands)
 
+        # 初期カード表示
+        print(f"player's hands：{self.player.hands}")
+
+        print("Enter \"y\" to replace the card.")
+        # それぞれのカードを「のこす」か「かえる」のどちらかを選択
+        for card_idx, change_card in enumerate(self.player.hands):
+            change_card_msg = f"{change_card}："
+            change_card_res = input(change_card_msg)
+
+            # 変える場合は山札からドローしてカードを交換
+            if change_card_res == "y":
+                self.player.hands[card_idx] = deck.pick_card(1)[0]
+
+        # 交換後のカード表示
+        print(f"player's hands：{self.player.hands}")
         self.is_poker_win = True
 
     def doubleUp_game(self):
