@@ -10,6 +10,26 @@ class Player:
         self.money = 100
         self.hands = []
 
+    def draw_card(self, deck, num=1):
+        """
+        カードをデッキからドローし手札に加える
+        ※異なる枚数がドローされてもok
+
+        Parameters
+        ----------
+        num : int, default 1
+            カードをドローする回数
+
+        Examples
+        --------
+        >>> player.draw_card(2) # 2枚ドロー [♠︎-J, ♠︎-10]
+        >>> player.draw_card(3) # [♦︎-9, ♣️-10, ♠︎-2]
+        >>> print(player.hands)
+        [♠︎-J, ♠︎-10, ♦︎-9, ♣️-10, ♠︎-2]
+        """
+        self.hands_store = deck.pick_card(num)
+        self.hands.extend(self.hands_store)
+
 
 class Game:
     """
@@ -25,16 +45,36 @@ class Game:
     def __init__(self):
         # player作成
         self.player = Player()
+        self.is_poker_win = False
+
+    def poker_game(self):
+        """
+        ポーカー
+        """
+        # 山札セット（セット数を決める）
+        deck = stock.Deck()
+
+        # 最初は5枚ドロー
+        self.player.draw_card(deck, 5)
+        print(self.player.hands)
+
+        self.is_poker_win = True
+
+    def doubleUp_game(self):
+        """
+        ダブルアップチャンス
+        """
+        print("double-Up Chance Game start")
 
     def main(self):
         """
-        ブラックジャックのメインゲーム関数
+        ゲーム全体（ポーカー + ダブルアップチャンス）
         """
 
-        # 山札セット（セット数を決める）
-        deck = stock.Deck()
-        print(deck.cards)
-        print(self.player.money)
+        self.poker_game()
+        # 役ありはダブルアップチャンス
+        if self.is_poker_win:
+            self.doubleUp_game()
 
 
 if __name__ == '__main__':
