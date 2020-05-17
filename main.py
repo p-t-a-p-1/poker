@@ -42,6 +42,11 @@ class Game:
 
     """
 
+    RANKS = (*"A23456789", "10", *"JQK")
+    VALUES = (range(1, 13 + 1))
+    # 表示マークとスコアを紐づける
+    RANK_TO_VALUES = dict(zip(RANKS, VALUES))
+
     def __init__(self):
         # player作成
         self.player = Player()
@@ -63,8 +68,8 @@ class Game:
         # 初期カード表示
         print(f"player's hands：{self.player.hands}")
 
-        print("Enter \"y\" to replace the card.")
         # それぞれのカードを「のこす」か「かえる」のどちらかを選択
+        print("Enter \"y\" to replace the card.")
         for card_idx, change_card in enumerate(self.player.hands):
             change_card_msg = f"{change_card}："
             change_card_res = input(change_card_msg)
@@ -75,6 +80,20 @@ class Game:
 
         # 交換後のカード表示
         print(f"player's hands：{self.player.hands}")
+
+        # 役の確認
+        for check_card in self.player.hands:
+            check_card_set = str(check_card).split("-")
+            # ❤︎
+            card_mark = check_card_set[0]
+            # K
+            card_rank = check_card_set[1]
+            # K
+            card_number = self.RANK_TO_VALUES[card_rank]
+            print(check_card)
+            print(card_mark)
+            print(card_rank)
+            print(card_number)
         self.is_poker_win = True
 
     def doubleUp_game(self):
