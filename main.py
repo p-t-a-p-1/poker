@@ -70,30 +70,42 @@ class Game:
 
         # それぞれのカードを「のこす」か「かえる」のどちらかを選択
         print("Enter \"y\" to replace the card.")
+
+        check_hands = []
         for card_idx, change_card in enumerate(self.player.hands):
             change_card_msg = f"{change_card}："
             change_card_res = input(change_card_msg)
 
             # 変える場合は山札からドローしてカードを交換
             if change_card_res == "y":
-                self.player.hands[card_idx] = deck.pick_card(1)[0]
+                change_card = deck.pick_card(1)[0]
+                self.player.hands[card_idx] = change_card
 
-        # 交換後のカード表示
-        print(f"player's hands：{self.player.hands}")
-
-        # 役の確認
-        for check_card in self.player.hands:
-            check_card_set = str(check_card).split("-")
+            # 連想配列に追加
+            check_card_set = str(change_card).split("-")
             # ❤︎
             card_mark = check_card_set[0]
             # K
             card_rank = check_card_set[1]
-            # K
+            # 13
             card_number = self.RANK_TO_VALUES[card_rank]
+            # チェック用の辞書に追加
+            check_hands.append({
+                "mark": card_mark,
+                "rank": card_rank,
+                "number": card_number
+            })
+
+        # 交換後のカード表示
+        print(f"player's hands：{self.player.hands}")
+
+        # 昇順にソート
+        check_hands_sorted = sorted(check_hands, key=lambda x: x["number"])
+
+        # 役の確認
+        for check_card in check_hands_sorted:
             print(check_card)
-            print(card_mark)
-            print(card_rank)
-            print(card_number)
+
         self.is_poker_win = True
 
     def doubleUp_game(self):
