@@ -42,8 +42,8 @@ class Game:
 
     """
 
-    RANKS = (*"A23456789", "10", *"JQK")
-    VALUES = (range(1, 13 + 1))
+    RANKS = (*"23456789", "10", *"JQKA")
+    VALUES = (range(2, 14 + 1))
     # 表示マークとスコアを紐づける
     RANK_TO_VALUES = dict(zip(RANKS, VALUES))
 
@@ -71,13 +71,17 @@ class Game:
         # それぞれのカードを「のこす」か「かえる」のどちらかを選択
         print("Enter \"y\" to replace the card.")
 
+        # チェック用のカードリスト（mark, rank, number）
         check_hands = []
+
+        # カード交換、チェック用のカードリストに追加
         for card_idx, change_card in enumerate(self.player.hands):
             change_card_msg = f"{change_card}："
             change_card_res = input(change_card_msg)
 
             # 変える場合は山札からドローしてカードを交換
             if change_card_res == "y":
+                # デッキからドローして上書き
                 change_card = deck.pick_card(1)[0]
                 self.player.hands[card_idx] = change_card
 
@@ -103,9 +107,44 @@ class Game:
         check_hands_sorted = sorted(check_hands, key=lambda x: x["number"])
 
         # 役の確認
-        for check_card in check_hands_sorted:
+        # フラッシュ（マーク全て一致）
+        is_flash = True
+        # ストレート（数字が連番）
+        is_straight = True
+        # 同じ数字のカウント
+        same_number_count = 0
+        # ペア数
+        pair_count = 0
+        for check_idx, check_card in enumerate(check_hands_sorted):
+            prev_card = check_hands_sorted[check_idx - 1]
             print(check_card)
 
+            # 前後のマーク違う場合はフラッシュ判定をFalse
+            if is_flash and check_card["mark"] != prev_card["mark"]:
+                is_flash = False
+            # 前後で数字が連続していない場合はストレート判定をFalse
+            if is_straight and check_card["number"] != prev_card["number"] + 1:
+                is_straight = False
+
+            # 前後で数字が一致してる場合は 同じ数字のカウント を+1
+            if check_card["number"] == prev_card["number"]:
+                same_number_count += 1
+
+            else:
+
+                pair_count += 1
+
+        # 役判定
+        hand_result_msg = ""
+        if is_flash and is_straight:
+            # フラッシュかつストレートかつ最小のカードが10,最大のカードが14(A)
+            if check_hands_sorted["number"][0] == 10 and  \
+                    check_hands_sorted["number"][4] == 14:
+                hand_result_msg = "ロイヤルストレートフラッシュ"
+            else:
+                hand_result_msg = "ストレートフラッシュ"
+
+        print(hand_result_msg)
         self.is_poker_win = True
 
     def doubleUp_game(self):
