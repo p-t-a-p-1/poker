@@ -136,13 +136,42 @@ class Game:
 
         # 役判定
         hand_result_msg = ""
+
+        # フラッシュかつストレート
         if is_flash and is_straight:
-            # フラッシュかつストレートかつ最小のカードが10,最大のカードが14(A)
+            # 最小のカードが10,最大のカードが14(A)
             if check_hands_sorted["number"][0] == 10 and  \
                     check_hands_sorted["number"][4] == 14:
                 hand_result_msg = "ロイヤルストレートフラッシュ"
             else:
                 hand_result_msg = "ストレートフラッシュ"
+
+        # 3カード, 4カード, フルハウス判定
+        if same_number_count >= 2:
+            # 3カード, フルハウス（前後数字比較が2回一致してる）
+            if same_number_count == 2:
+                # TODO 判定追加
+                hand_result_msg = "3カード, フルハウス"
+            else:
+                hand_result_msg = "4カード"
+
+        # フラッシュ
+        if is_flash:
+            hand_result_msg = "フラッシュ"
+
+        # ストレート
+        if is_straight:
+            hand_result_msg = "ストレート"
+
+        # 2ペア, 1ペア
+        if pair_count == 2:
+            hand_result_msg = "2ペア"
+        elif pair_count == 1:
+            hand_result_msg = "1ペア"
+
+        # 何もない場合は負け
+        if hand_result_msg == "":
+            hand_result_msg = "no"
 
         print(hand_result_msg)
         self.is_poker_win = True
