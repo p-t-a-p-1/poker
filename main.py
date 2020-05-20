@@ -113,15 +113,23 @@ class Game:
         is_straight = True
         # 同じ数字のカウント
         same_number_count = 0
-        # ペア数
-        pair_count = 0
+        same_number = 0
+        # ペア数（1ペアや2ペア）
+        match_pair_count = 0
+
         for check_idx, check_card in enumerate(check_hands_sorted):
+
+            # 1枚目は前のカードがないのでスキップ
+            if check_idx == 0:
+                continue
+
+            # 前のカード {'mark': '♠︎', 'rank': '4', 'number': 4}
             prev_card = check_hands_sorted[check_idx - 1]
-            print(check_card)
 
             # 前後のマーク違う場合はフラッシュ判定をFalse
             if is_flash and check_card["mark"] != prev_card["mark"]:
                 is_flash = False
+
             # 前後で数字が連続していない場合はストレート判定をFalse
             if is_straight and check_card["number"] != prev_card["number"] + 1:
                 is_straight = False
@@ -130,9 +138,18 @@ class Game:
             if check_card["number"] == prev_card["number"]:
                 same_number_count += 1
 
+                # 最後のカード
+                if check_idx == 4:
+                    if same_number_count == 1:
+                        match_pair_count += 1
+                    else:
+                        # 3カードや4カード
+                        same_number = match_pair_count + 1
             else:
 
                 pair_count += 1
+
+                same_number_count = 0
 
         # 役判定
         hand_result_msg = ""
