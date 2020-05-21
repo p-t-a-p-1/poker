@@ -11,6 +11,10 @@ class Poker:
 
     def change_hands(self, player_hands):
         check_hands = []
+
+        # それぞれのカードを「のこす」か「かえる」のどちらかを選択
+        print("Enter \"y\" to replace the card.")
+
         for card_idx, change_card in enumerate(player_hands):
             change_card_msg = f"{change_card}："
             change_card_res = input(change_card_msg)
@@ -78,7 +82,7 @@ class Poker:
                         match_pair_count += 1
                     else:
                         # 3カードや4カード
-                        same_number = match_pair_count + 1
+                        same_number = same_number_count + 1
 
             # 違う数字の場合
             else:
@@ -141,10 +145,6 @@ class Poker:
         elif hand_status["match_pair_count"] == 1:
             hand_result_msg = "1ペア"
 
-        # 何もない場合は負け
-        if hand_result_msg == "":
-            hand_result_msg = "no"
-
         return hand_result_msg
 
     def main_game(self):
@@ -160,9 +160,6 @@ class Poker:
         # 初期カード表示
         print(f"player's hands：{self.player.hands}")
 
-        # それぞれのカードを「のこす」か「かえる」のどちらかを選択
-        print("Enter \"y\" to replace the card.")
-
         # カード交換フェイズ
         check_hands = self.change_hands(self.player.hands)
 
@@ -172,11 +169,24 @@ class Poker:
         # 手札の数字をもとに昇順にソート
         check_hands_sorted = sorted(check_hands, key=lambda x: x["number"])
 
+        # 役計算のテスト（カード指定）
+        # check_hands_sorted = [
+        #     {'mark': '♦︎', 'rank': '5', 'number': 5},
+        #     {'mark': '❤︎', 'rank': 'J', 'number': 11},
+        #     {'mark': '❤︎', 'rank': 'A', 'number': 14},
+        #     {'mark': '♣️', 'rank': 'A', 'number': 14},
+        #     {'mark': '❤︎', 'rank': 'A', 'number': 14}
+        # ]
         # 手札から役の計算
         hand_results = self.calc_hand(check_hands_sorted)
-
+        print(hand_results)
         # 役判定
         hand_result_msg = self.showdown_hand(hand_results, check_hands_sorted)
 
+        # 何もない場合は負け
+        if hand_result_msg == "":
+            hand_result_msg = "役はありませんでした..."
+            self.is_poker_win = False
+
+        # 結果出力
         print(hand_result_msg)
-        self.is_poker_win = True

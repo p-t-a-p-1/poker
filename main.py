@@ -50,7 +50,6 @@ class Game:
 
     def __init__(self):
         # player作成
-        self.player = Player()
         self.is_poker_win = False
 
     def doubleUp_game(self):
@@ -63,16 +62,28 @@ class Game:
         """
         ゲーム全体（ポーカー + ダブルアップチャンス）
         """
+        can_play_game = True
 
-        # 山札セット（セット数を決める）
-        deck = stock.Deck()
-        poker = Poker(deck, self.player)
-        poker.main_game()
-        # self.poker_game(deck)
+        while can_play_game:
 
-        # 役ありはダブルアップチャンス
-        if self.is_poker_win:
-            self.doubleUp_game()
+            # ゲームごとにplayer情報リセット
+            player = Player()
+
+            # 山札セット（セット数を決める） = ゲームごとに山札再構築
+            deck = stock.Deck()
+            poker = Poker(deck, player)
+            poker.main_game()
+            # self.poker_game(deck)
+
+            # 役ありはダブルアップチャンス
+            if self.is_poker_win:
+                self.doubleUp_game()
+
+            # ゲームリスタート
+            restart_msg = "Qでゲーム終了、それ以外でゲームスタート："
+            start_res = input(restart_msg)
+            if start_res == 'Q':
+                can_play_game = False
 
 
 if __name__ == '__main__':
