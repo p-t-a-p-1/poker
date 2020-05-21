@@ -173,26 +173,31 @@ class Game:
                 hand_result_msg = "ストレートフラッシュ"
 
         # 3カード, 4カード, フルハウス判定
-        if same_number_count >= 2:
-            # 3カード, フルハウス（前後数字比較が2回一致してる）
-            if same_number_count == 2:
-                # TODO 判定追加
-                hand_result_msg = "3カード, フルハウス"
-            else:
+        elif same_number >= 3:
+            if same_number_count == 4:
                 hand_result_msg = "4カード"
+            else:
+                # 3カードかつペアが1
+                if match_pair_count == 1:
+                    hand_result_msg = "フルハウス"
+                else:
+                    hand_result_msg = "3カード"
+
 
         # フラッシュ
-        if is_flash:
+        elif is_flash:
             hand_result_msg = "フラッシュ"
 
         # ストレート
-        if is_straight:
+        elif is_straight:
             hand_result_msg = "ストレート"
 
-        # 2ペア, 1ペア
-        if pair_count == 2:
+        # 2ペア
+        elif match_pair_count == 2:
             hand_result_msg = "2ペア"
-        elif pair_count == 1:
+
+        # 1ペア
+        elif match_pair_count == 1:
             hand_result_msg = "1ペア"
 
         # 何もない場合は負け
