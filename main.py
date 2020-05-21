@@ -1,6 +1,6 @@
 from deck import stock
 from poker import Poker
-
+from bonus import DoubleUp
 
 class Player:
     """
@@ -8,8 +8,9 @@ class Player:
     """
 
     def __init__(self):
-        self.money = 100
+        self.score = 100
         self.hands = []
+        self.is_poker_win = True
 
     def draw_card(self, deck, num=1):
         """
@@ -48,16 +49,6 @@ class Game:
     # 表示マークとスコアを紐づける
     RANK_TO_VALUES = dict(zip(RANKS, VALUES))
 
-    def __init__(self):
-        # player作成
-        self.is_poker_win = False
-
-    def doubleUp_game(self):
-        """
-        ダブルアップチャンス
-        """
-        print("double-Up Chance Game start")
-
     def main(self):
         """
         ゲーム全体（ポーカー + ダブルアップチャンス）
@@ -73,11 +64,12 @@ class Game:
             deck = stock.Deck()
             poker = Poker(deck, player)
             poker.main_game()
-            # self.poker_game(deck)
 
             # 役ありはダブルアップチャンス
-            if self.is_poker_win:
-                self.doubleUp_game()
+            print(player.is_poker_win)
+            if player.is_poker_win:
+                bonus_game = DoubleUp(player)
+                bonus_game.main_game()
 
             # ゲームリスタート
             restart_msg = "Qでゲーム終了、それ以外でゲームスタート："

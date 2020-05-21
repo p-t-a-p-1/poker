@@ -186,7 +186,7 @@ class Poker:
         # 何もない場合は負け
         if hand_result_msg == "":
             hand_result_msg = "役はありませんでした..."
-            self.is_poker_win = False
+            self.player.is_poker_win = False
 
         # 結果出力
         print(hand_result_msg)
