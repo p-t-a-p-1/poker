@@ -74,6 +74,8 @@ class Game:
         # チェック用のカードリスト（mark, rank, number）
         check_hands = []
 
+        # TODO Pokerクラスにメソッド追加
+        # change_hands
         # カード交換、チェック用のカードリストに追加
         for card_idx, change_card in enumerate(self.player.hands):
             change_card_msg = f"{change_card}："
@@ -106,6 +108,8 @@ class Game:
         # 昇順にソート
         check_hands_sorted = sorted(check_hands, key=lambda x: x["number"])
 
+        # TODO Pokerクラスにメソッド追加
+        # calc_poker_hand
         # 役の確認
         # フラッシュ（マーク全て一致）
         is_flash = True
@@ -166,6 +170,9 @@ class Game:
                     same_number = same_number_count + 1
                 # 違う数字なのでリセット
                 same_number_count = 0
+
+        # TODO Pokerクラスにメソッド追加
+        # check_poker_hand
 
         # 役判定
         hand_result_msg = ""
