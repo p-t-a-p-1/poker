@@ -183,7 +183,6 @@ class Game:
                 else:
                     hand_result_msg = "3カード"
 
-
         # フラッシュ
         elif is_flash:
             hand_result_msg = "フラッシュ"
