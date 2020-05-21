@@ -136,19 +136,28 @@ class Game:
 
             # 前後で数字が一致してる場合は 同じ数字のカウント を+1
             if check_card["number"] == prev_card["number"]:
+                # マッチ数 + 1
                 same_number_count += 1
 
                 # 最後のカード
                 if check_idx == 4:
                     if same_number_count == 1:
+                        # ペア数 + 1
                         match_pair_count += 1
                     else:
                         # 3カードや4カード
                         same_number = match_pair_count + 1
+
+            # 違う数字の場合
             else:
+                if same_number_count == 1:
+                    # ペア数 + 1
+                    match_pair_count += 1
+                elif same_number_count > 1:
+                    # 3カードや4カード
+                    same_number = match_pair_count + 1
 
-                pair_count += 1
-
+                # 違う数字なのでリセット
                 same_number_count = 0
 
         # 役判定
