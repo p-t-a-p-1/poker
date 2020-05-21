@@ -117,6 +117,14 @@ class Game:
         # ペア数（1ペアや2ペア）
         match_pair_count = 0
 
+        # check_hands_sorted = [
+        #     {'mark': '♣️', 'rank': '3', 'number': 3},
+        #     {'mark': '♠︎', 'rank': '3', 'number': 3},
+        #     {'mark': '♣️', 'rank': '3', 'number': 3},
+        #     {'mark': '♠︎', 'rank': '3', 'number': 3},
+        #     {'mark': '♣️', 'rank': '6', 'number': 6}
+        # ]
+
         for check_idx, check_card in enumerate(check_hands_sorted):
 
             # 1枚目は前のカードがないのでスキップ
@@ -155,8 +163,7 @@ class Game:
                     match_pair_count += 1
                 elif same_number_count > 1:
                     # 3カードや4カード
-                    same_number = match_pair_count + 1
-
+                    same_number = same_number_count + 1
                 # 違う数字なのでリセット
                 same_number_count = 0
 
@@ -166,22 +173,23 @@ class Game:
         # フラッシュかつストレート
         if is_flash and is_straight:
             # 最小のカードが10,最大のカードが14(A)
-            if check_hands_sorted["number"][0] == 10 and  \
-                    check_hands_sorted["number"][4] == 14:
+            if check_hands_sorted[0]["number"] == 10 and  \
+                    check_hands_sorted[4]["number"] == 14:
                 hand_result_msg = "ロイヤルストレートフラッシュ"
             else:
                 hand_result_msg = "ストレートフラッシュ"
 
-        # 3カード, 4カード, フルハウス判定
-        elif same_number >= 3:
-            if same_number_count == 4:
-                hand_result_msg = "4カード"
+        # 4カード
+        elif same_number == 4:
+            hand_result_msg = "4カード"
+
+        # 3カード, フルハウス判定
+        elif same_number == 3:
+            # 3カードかつペアが1
+            if match_pair_count == 1:
+                hand_result_msg = "フルハウス"
             else:
-                # 3カードかつペアが1
-                if match_pair_count == 1:
-                    hand_result_msg = "フルハウス"
-                else:
-                    hand_result_msg = "3カード"
+                hand_result_msg = "3カード"
 
         # フラッシュ
         elif is_flash:
