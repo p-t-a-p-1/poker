@@ -1,3 +1,6 @@
+import re
+
+
 class DoubleUp:
 
     def __init__(self, deck, player):
@@ -25,6 +28,11 @@ class DoubleUp:
         card_select_msg = f"Enter a card number that is stronger than {self.player.hands[0]}："
         card_select_res = input(card_select_msg)
         print(card_select_res)
+
+        if re.compile(r'^[1-4]+$').match(card_select_res) is not None:
+            print(self.player.hands[int(card_select_res)])
+        else:
+            print("ダメです")
 
         # TODO 選択したカードが強い場合, 賭け金は倍になり再度ダブルアップチャンスができる
         # TODO 選択したカードが弱い場合, 賭け金は0になり、再度ポーカーからスタート
