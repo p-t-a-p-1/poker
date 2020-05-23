@@ -62,8 +62,9 @@ class DoubleUp:
                     print("win!")
                     self.player.score *= 2
                 else:
-                    # TODO 選択したカードが弱い場合, 賭け金は0になり、再度ポーカーからスタート
+                    # 小さい場合, スコアは0になり、再度ポーカーからスタート
                     print("lose..")
+                    self.player.score = 0
                     self.is_game_win = False
             else:
                 print("ダメです")

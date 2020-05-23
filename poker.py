@@ -114,36 +114,44 @@ class Poker:
             if check_hands[0]["number"] == 10 and  \
                     check_hands[4]["number"] == 14:
                 hand_result_msg = "ロイヤルストレートフラッシュ"
+                self.player.score = 10000
             else:
                 hand_result_msg = "ストレートフラッシュ"
-
+                self.player.score = 2000
         # 4カード
         elif hand_status["same_number"] == 4:
             hand_result_msg = "4カード"
+            self.player.score = 1000
 
         # 3カード, フルハウス判定
         elif hand_status["same_number"] == 3:
             # 3カードかつペアが1
             if hand_status["match_pair_count"] == 1:
                 hand_result_msg = "フルハウス"
+                self.player.score = 500
             else:
                 hand_result_msg = "3カード"
+                self.player.score = 250
 
         # フラッシュ
         elif hand_status["is_flash"]:
             hand_result_msg = "フラッシュ"
+            self.player.score = 400
 
         # ストレート
         elif hand_status["is_straight"]:
             hand_result_msg = "ストレート"
+            self.player.score = 300
 
         # 2ペア
         elif hand_status["match_pair_count"] == 2:
             hand_result_msg = "2ペア"
+            self.player.score = 200
 
-        # 1ペア
+        # １ペア
         elif hand_status["match_pair_count"] == 1:
-            hand_result_msg = "1ペア"
+            hand_result_msg = "2ペア"
+            self.player.score = 150
 
         return hand_result_msg
 

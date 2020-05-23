@@ -9,7 +9,7 @@ class Player:
     """
 
     def __init__(self):
-        self.score = 100
+        self.score = 0
         self.hands = []
         self.is_poker_win = True
 
