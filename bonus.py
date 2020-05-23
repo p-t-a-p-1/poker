@@ -16,9 +16,11 @@ class DoubleUp:
         print("double-Up Chance Game start")
         print(f"Now, your score is {self.player.score} points.")
         self.player.hands = []
-        # TODO デッキから5枚のカードが配られる
+
+        # デッキから5枚のカードを配る
         self.player.draw_card(self.deck, 5)
-        # TODO 5枚中1枚が表、4枚は裏向きでセット
+
+        # 5枚中1枚が表、4枚は裏向きでセット
         print(f"player's hands：{self.player.hands[0]}, *-*, *-*, *-*, *-*")
 
         # カードを1枚ずつ表示して番号を割り振る
@@ -45,18 +47,23 @@ class DoubleUp:
                 # print(f"{card_idx}：*-*")
                 print(f"{card_idx}：{card_val}")
 
-        # カード番号を入力させる
-        # TODO 4枚の裏向きカードの中から、表向きのカードの数字より強いものを1枚選ぶ
+        # 4枚の裏向きカードの中から、表向きのカードの数字より強いものを1枚選ぶ
         card_select_msg = f"Enter a card number that is stronger than {self.player.hands[0]}："
         card_select_res = input(card_select_msg)
 
+        # １〜４までの数字から１つ選ぶ
         if re.compile(r'^[1-4]+$').match(card_select_res) is not None:
+            # 選んだ番号のカードと表向きのカードの数字の大きさ比較
             if check_hands[int(card_select_res)]["number"] >= check_hands[0]["number"]:
+                # 大きければスコア２倍
                 print("win!")
+                self.player.score *= 2
             else:
+                # TODO 選択したカードが弱い場合, 賭け金は0になり、再度ポーカーからスタート
                 print("lose..")
         else:
+
             print("ダメです")
 
-        # TODO 選択したカードが強い場合, 賭け金は倍になり再度ダブルアップチャンスができる
-        # TODO 選択したカードが弱い場合, 賭け金は0になり、再度ポーカーからスタート
+        print(self.player.score)
+
