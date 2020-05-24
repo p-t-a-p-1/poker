@@ -150,7 +150,7 @@ class Poker:
 
         # １ペア
         elif hand_status["match_pair_count"] == 1:
-            hand_result_msg = "2ペア"
+            hand_result_msg = "1ペア"
             self.player.score = 150
 
         return hand_result_msg

@@ -69,8 +69,7 @@ class Game:
             # 役ありはダブルアップチャンス
             print(player.is_poker_win)
             if player.is_poker_win:
-                bonus_deck = stock.Deck()
-                bonus_game = DoubleUp(bonus_deck, player)
+                bonus_game = DoubleUp(player)
                 bonus_game.main_game()
 
             # ゲームリスタート
