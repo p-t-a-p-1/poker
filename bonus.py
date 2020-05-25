@@ -14,6 +14,20 @@ class DoubleUp:
         self.is_game_win = True
 
     def add_check_hands(self, player_hands):
+        """
+        カードを1枚ずつ表示して番号を割り振る
+
+        Parameters
+        ----------
+        player_hands : list
+            手札5枚
+
+        Returns
+        --------
+        check_hands : list
+            playerの手札
+        """
+
         check_hands = []
         for card_idx, card_val in enumerate(player_hands):
 
@@ -40,6 +54,17 @@ class DoubleUp:
         return check_hands
 
     def win_judge_selected_card(self, input_res, check_hands):
+        """
+        ゲームの勝利判定（選択したカードと表向きのカードを比較）
+
+        Parameters
+        ----------
+        input_res : str
+            コマンドに入力された数字
+        check_hands : list
+            playerの手札
+        """
+
         if re.compile(r'^[1-4]+$').match(input_res) is not None:
             # 選んだ番号のカードと表向きのカードの数字の大きさ比較
             if check_hands[int(input_res)]["number"] >= check_hands[0]["number"]:
@@ -55,6 +80,9 @@ class DoubleUp:
             print("ダメです")
 
     def main_game(self):
+        """
+        ダブルアップのメインゲーム
+        """
 
         while self.is_game_win:
             # 山札再構築

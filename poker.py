@@ -10,7 +10,21 @@ class Poker:
         self.player = player
 
     def change_hands(self, player_hands):
-        check_hands = []
+        """
+        カードを1枚ずつ交換選択させ、交換後の手札を返す
+
+        Parameters
+        ----------
+        player_hands : list
+            カード交換する前のplayerの山札
+
+        Returns
+        --------
+        changed_hands : list
+            カード交換した後のplayerの山札
+        """
+
+        changed_hands = []
 
         # それぞれのカードを「のこす」か「かえる」のどちらかを選択
         print("Enter \"y\" to replace the card.")
@@ -34,14 +48,29 @@ class Poker:
             # 13
             card_number = self.RANK_TO_VALUES[card_rank]
             # チェック用の辞書に追加
-            check_hands.append({
+            changed_hands.append({
                 "mark": card_mark,
                 "rank": card_rank,
                 "number": card_number
             })
-        return check_hands
+        return changed_hands
 
     def calc_hand(self, check_hands):
+        """
+        手札から役の計算
+
+        Parameters
+        ----------
+        check_hands : list
+            カード交換した後のplayerの山札
+
+        Returns
+        --------
+        hand_results : dict
+            playerの山札のそれぞれの役の状態
+        """
+
+        # フラッシュ（マークが同じ）
         is_flash = True
         # ストレート（数字が連番）
         is_straight = True
@@ -51,8 +80,10 @@ class Poker:
         # ペア数（1ペアや2ペア）
         match_pair_count = 0
 
+        # 手札からカードの数字をもとに昇順に並べ替え
         check_hands_sorted = sorted(check_hands, key=lambda x: x["number"])
 
+        # カード5枚から1枚ずつチェック
         for check_idx, check_card in enumerate(check_hands_sorted):
 
             # 1枚目は前のカードがないのでスキップ
@@ -95,6 +126,7 @@ class Poker:
                 # 違う数字なのでリセット
                 same_number_count = 0
 
+        # 手札のそれぞれの役の状態
         hand_results = {
             "is_flash": is_flash,
             "is_straight": is_straight,
@@ -105,6 +137,22 @@ class Poker:
         return hand_results
 
     def showdown_hand(self, hand_status, check_hands):
+        """
+        役の状態から役の決定、スコア計算
+
+        Parameters
+        ----------
+        hand_status : dict
+            カード交換した後のplayerの役の状態
+        check_hands : list
+            playerの手札
+
+        Returns
+        --------
+        hand_result_msg : str
+            役の判定文
+        """
+
         # 結果
         hand_result_msg = ""
 
@@ -157,7 +205,7 @@ class Poker:
 
     def main_game(self):
         """
-        ポーカー
+        ポーカーのメインゲーム
         """
 
         print("Poker Game start")
