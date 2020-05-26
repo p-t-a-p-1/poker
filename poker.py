@@ -179,7 +179,7 @@ class Poker:
                 self.player.score = 500
             else:
                 hand_result_msg = "3カード"
-                self.player.score = 250
+                self.player.score = 200
 
         # フラッシュ
         elif hand_status["is_flash"]:
@@ -194,12 +194,12 @@ class Poker:
         # 2ペア
         elif hand_status["match_pair_count"] == 2:
             hand_result_msg = "2ペア"
-            self.player.score = 200
+            self.player.score = 100
 
         # １ペア
         elif hand_status["match_pair_count"] == 1:
             hand_result_msg = "1ペア"
-            self.player.score = 150
+            self.player.score = 50
 
         return hand_result_msg
 
@@ -235,7 +235,7 @@ class Poker:
         # ]
         # 手札から役の計算
         hand_results = self.calc_hand(check_hands_sorted)
-        print(hand_results)
+
         # 役判定
         hand_result_msg = self.showdown_hand(hand_results, check_hands_sorted)
 

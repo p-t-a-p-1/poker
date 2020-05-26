@@ -36,7 +36,7 @@ class Player:
 
 class Game:
     """
-    メインゲーム（インスタンス作成時にplayerとdealerインスタンス作成）
+    メインゲーム
 
     Examples
     --------

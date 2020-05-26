@@ -48,8 +48,8 @@ class DoubleUp:
             # 1番目は選択できない
             if card_idx >= 1:
                 # 隠す
-                # print(f"{card_idx}：*-*")
-                print(f"{card_idx}：{card_val}")
+                print(f"{card_idx}：*-*")
+                # print(f"{card_idx}：{card_val}")
 
         return check_hands
 
@@ -66,8 +66,10 @@ class DoubleUp:
         """
 
         if re.compile(r'^[1-4]+$').match(input_res) is not None:
+            select_card = check_hands[int(input_res)]
+            print(f"Selected card is {select_card['mark']}-{select_card['number']}")
             # 選んだ番号のカードと表向きのカードの数字の大きさ比較
-            if check_hands[int(input_res)]["number"] >= check_hands[0]["number"]:
+            if select_card["number"] >= check_hands[0]["number"]:
                 # 大きければスコア２倍
                 print("win!")
                 self.player.score *= 2
